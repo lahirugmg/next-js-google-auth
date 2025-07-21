@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 interface TransactionData {
   amount: number;
@@ -11,6 +12,7 @@ interface TransactionData {
 }
 
 export default function TransactionForm() {
+  const { data: session, status } = useSession();
   const [formData, setFormData] = useState<TransactionData>({
     amount: 0,
     description: '',
@@ -61,6 +63,32 @@ export default function TransactionForm() {
       setIsSubmitting(false);
     }
   };
+
+  // Show loading state while checking authentication
+  if (status === 'loading') {
+    return (
+      <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login prompt if not authenticated
+  if (!session) {
+    return (
+      <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Sign In Required</h2>
+          <p className="text-gray-600 mb-4">
+            Please sign in with Google to add transactions.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">

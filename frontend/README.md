@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Business Expense Tracker - Frontend
 
-## Getting Started
+This is the Next.js frontend for the Business Expense Tracker application with Google authentication.
 
-First, run the development server:
+## Setup
 
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Copy the environment file:
+```bash
+cp env.local.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure Google OAuth:
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select an existing one
+   - Enable the Google+ API
+   - Go to "Credentials" and create an "OAuth 2.0 Client ID"
+   - Set the authorized redirect URI to: `http://localhost:3000/api/auth/callback/google`
+   - Copy the Client ID and Client Secret
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Update `.env.local` with your Google OAuth credentials:
+```env
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-random-secret-key-here
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+```
 
-## Learn More
+5. Generate a random secret for NEXTAUTH_SECRET:
+```bash
+openssl rand -base64 32
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Running the Application
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Development Mode
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The frontend will be available at http://localhost:3000
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Google Authentication**: Sign in with Google account
+- **Transaction Form**: Add expenses and income (requires authentication)
+- **Responsive Design**: Works on desktop and mobile
+- **TypeScript**: Full type safety
+- **Tailwind CSS**: Modern styling
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Authentication Flow
+
+1. User clicks "Sign in with Google"
+2. Redirected to Google OAuth
+3. After successful authentication, user is redirected back
+4. User can now access the transaction form
+5. User can sign out using the "Sign Out" button
+
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── api/auth/[...nextauth]/  # NextAuth API routes
+│   │   ├── page.tsx                 # Main page
+│   │   └── layout.tsx               # Root layout
+│   └── components/
+│       ├── LoginButton.tsx          # Google login/logout button
+│       ├── TransactionForm.tsx      # Transaction form
+│       └── Providers.tsx            # NextAuth session provider
+├── .env.local                       # Environment variables
+└── README.md                        # This file
+```

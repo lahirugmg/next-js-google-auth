@@ -35,6 +35,10 @@ venv.bak/
 .env.test.local
 .env.production.local
 
+# Frontend specific environment files
+frontend/.env.local
+frontend/.env
+
 # Node.js
 node_modules/
 npm-debug.log*

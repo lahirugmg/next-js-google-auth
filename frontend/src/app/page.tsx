@@ -1,4 +1,5 @@
 import TransactionForm from '@/components/TransactionForm';
+import LoginButton from '@/components/LoginButton';
 
 export default function Home() {
   return (
@@ -8,9 +9,13 @@ export default function Home() {
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Business Expense Tracker
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-6">
             Track your business expenses and income
           </p>
+          
+          <div className="flex justify-center mb-8">
+            <LoginButton />
+          </div>
         </div>
         
         <TransactionForm />
