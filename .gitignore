@@ -1,3 +1,9 @@
+# Environment files
+*.env.local
+*.env
+.env.local
+.env
+
 # Python
 __pycache__/
 *.py[cod]
@@ -38,6 +44,9 @@ venv.bak/
 # Frontend specific environment files
 frontend/.env.local
 frontend/.env
+frontend/.env.*
+**/frontend/.env.local
+**/frontend/.env
 
 # Node.js
 node_modules/
